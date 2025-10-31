@@ -23,6 +23,8 @@ jupyter: python3
 #| label: load-pkgs
 #| message: false
 import numpy as np
+import pandas as pd
+from pandas.tseries.holiday import USFederalHolidayCalendar
 ```
 
 ## Dataset
@@ -30,6 +32,36 @@ import numpy as np
 ```{python}
 #| label: load-dataset
 #| message: false
+
+# Load in dataframe
+df = pd.read_csv('data/ozone_2024_MA.csv')
+
+# Convert dates to datetime
+df['Date'] = pd.to_datetime(df['Date'])
+
+# Create column for seasons
+def get_season(month):
+    if 3 <= month <= 5:
+        return 'Spring'
+    elif 6 <= month <= 8:
+        return 'Summer'
+    elif 9 <= month <= 11:
+        return 'Fall'
+    else:
+        return 'Winter'
+df['Season'] = df['Date'].dt.month.apply(get_season)
+
+# Create column that signifies if it is a weekend
+df['is_weekend'] = df['Date'].dt.dayofweek >= 5
+
+# Create column that signifies if it is a federal holiday
+cal = USFederalHolidayCalendar()
+holidays = cal.holidays(start=df['Date'].min(), end=df['Date'].max())
+df['is_federal_holiday'] = df['Date'].isin(holidays)
+
+# Print head() and info()
+print(df.head())
+print(df.info())
 ```
 
 A brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.
