@@ -1,11 +1,11 @@
 ---
-title: "Proposal title"
-subtitle: "Proposal"
+title: "Impact of Urban Activity on Air Quality"
+subtitle: "Peer Review Proposal"
 author: 
-  - name: "Team Name - Team member 1, Team member 2,..."
+  - name: "W Squared - Stephen Watts, Kayla Wowk"
     affiliations:
       - name: "College of Information Science, University of Arizona"
-description: "Project description"
+description: "Identify the impact of urban activity on air quality in major cities in Massachusetts."
 format:
   html:
     code-tools: true
@@ -18,9 +18,6 @@ execute:
   warning: false
 jupyter: python3
 ---
-
-## High-level goal
-Identify the impact of urban activity on air quality in major cities in Massachusetts.
 
 
 ```{python}
