@@ -88,3 +88,5 @@ Using both spatial and temporal data from the Environmental Protection Agency, d
 | 7    | Dec 05–Dec 11   | Conduct peer code review + finalize repo structure                                | All members                                |
 | 8    | Dec 12–Dec 16   | Present project + submit final write-up                                           | All members                                |
 
+## AI usage disclaimer
+ChatGPT was used to confirm the correct formatting of the above table as well as formatting of the above functions. AI was not utilized in any written portions of this assignment.
