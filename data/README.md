@@ -1,7 +1,7 @@
 # Data
--   **[Dataset]**: Description of the dataset 
+-   **[ozone_2024_MA]**: This dataset contains the air quality index and ozone level values in Massachusets in 2024. 
 
-# Codebook for [chosen] Dataset
+# Codebook for [ozone_2024_MA] Dataset
 
 ## Variable Names and Descriptions:
 
