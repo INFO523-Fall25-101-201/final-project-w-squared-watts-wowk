@@ -75,7 +75,7 @@ print(df.info())
 
 ## Analysis plan
 
-Using both spatial and temporal data from the Environmental Protection Agency, determine the impact of urban activity (weekend vs. weekday) on ozone (or possibly other contaminants). Not only would we be able to determine variance in air quality across weekdays and weekends, I could also determine the impact of the season, as well as the impact of longer weekends (which include a federal holiday). We have added columns to the dataset which label each row as either a weekend or not and a federal holiday or not as well as which season each row belongs to.
+Using both spatial and temporal data from the Environmental Protection Agency, determine the impact of urban activity (weekend vs. weekday) on ozone (or possibly other contaminants). Not only would we be able to determine variance in air quality across weekdays and weekends, we could also determine the impact of the season, as well as the impact of longer weekends (which include a federal holiday). We have added columns to the dataset which label each row as either a weekend or not and a federal holiday or not as well as which season each row belongs to.
 
 ## Weekly Plan of Attack:
 
