@@ -19,7 +19,6 @@ execute:
 jupyter: python3
 ---
 
-
 ```{python}
 #| label: load-pkgs
 #| message: false
@@ -65,28 +64,32 @@ print(df.head())
 print(df.info())
 ```
 
-- This is the 2024 dataset of ozone levels in Masachussets from the EPA. The important columns include Date, Daily Max 8-hour Ozone Concentration, Daily AQI Value, County, and State. There are 6188 non-null columns that represent each day of the year for each county in Masachussetts. The 5 largest cities in Massechusetts include Boston, Worcester, Springfield, and Cambridge. These cities belong to the following 4 counties: Suffolk County, Worcester County, Hampden County, and Middlesex County. We will be analyzing the air quality index and ozone levels in these specific counties as we are focusing on urban activities in major cities.
-- We find this project interesting because we both live with someone with asthma, and learning more about potential triggers and how to plan around them would help with their condition.
+-   This is the 2024 dataset of ozone levels in Masachussets from the EPA. The important columns include Date, Daily Max 8-hour Ozone Concentration, Daily AQI Value, County, and State. There are 6188 non-null columns that represent each day of the year for each county in Massachusetts. The 5 largest cities in Massachusetts include Boston, Worcester, Springfield, and Cambridge. These cities belong to the following 4 counties: Suffolk County, Worcester County, Hampden County, and Middlesex County. We will be analyzing the air quality index and ozone levels in these specific counties as we are focusing on urban activities in major cities.
+-   We find this project interesting because we both live with someone with asthma, and learning more about potential triggers and how to plan around them would help with their condition.
 
 ## Questions
-- Does air quality change depending on the time of the week (weekend versus weekday) in major cities in Massachusetts?
-- If so, is there a greater change in air quality during long weekends caused by federal holidays?
-- Does air quality change depending on the season in major cities in Massachusetts?
+
+-   Does air quality change depending on the time of the week (weekend versus weekday) in major cities in Massachusetts?
+-   If so, is there a greater change in air quality during long weekends caused by federal holidays?
+-   Does air quality change depending on the season in major cities in Massachusetts?
 
 ## Analysis plan
-Using both spatial and temporal data from the Environmental Protection Agency, determine the impact of urban activity (weekend vs. weekday) on ozone (or possibly other containments). Not only would I be able to determine variance in air quality across weekdays and weekends, I could also determine the impact of the season, as well as the impact of longer weekends (which include a federal holiday). We have added columns to the dataset which label each row as either a weekend or not and a federal holiday or not as well as which season each row belongs to.
+
+Using both spatial and temporal data from the Environmental Protection Agency, determine the impact of urban activity (weekend vs. weekday) on ozone (or possibly other contaminants). Not only would we be able to determine variance in air quality across weekdays and weekends, I could also determine the impact of the season, as well as the impact of longer weekends (which include a federal holiday). We have added columns to the dataset which label each row as either a weekend or not and a federal holiday or not as well as which season each row belongs to.
 
 ## Weekly Plan of Attack:
-| Week | Dates          | Tasks & Milestones                                                                 | Assigned Member                            |
-|:-----|:----------------|:----------------------------------------------------------------------------------|:-------------------------------------------|
-| 1    | Oct 24–Oct 30   | Draft project proposal and set up GitHub repo structure                           | Stephen (proposal), Kayla (repo setup)     |
-| 2    | Oct 31–Nov 06   | Revise proposal based on peer feedback + receive instructor feedback              | Stephen (revision), All members (review response) |
-| 3    | Nov 07–Nov 13   | Incorporate instructor feedback into final proposal                               | All members                                |
-| 4    | Nov 14–Nov 20   | Begin implementation: data cleaning, preprocessing, initial modeling               | Stephen (data), Kayla (modeling)           |
-| 5    | Nov 21–Nov 27   | Continue modeling, refine methods, begin visualization and dashboard setup         | Kayla (modeling), Stephen (viz/dashboard)  |
-| 6    | Nov 28–Dec 04   | Finalize modeling, validate results, begin write-up                               | Kayla (validation), Stephen (write-up)     |
-| 7    | Dec 05–Dec 11   | Conduct peer code review + finalize repo structure                                | All members                                |
-| 8    | Dec 12–Dec 16   | Present project + submit final write-up                                           | All members                                |
+
+| Week | Dates | Tasks & Milestones | Assigned Member |
+|:----------------|:----------------|:----------------------|:----------------|
+| 1 | Oct 24–Oct 30 | Draft project proposal and set up GitHub repo structure | Stephen (proposal), Kayla (repo setup) |
+| 2 | Oct 31–Nov 06 | Revise proposal based on peer feedback + receive instructor feedback | Stephen (revision), All members (review response) |
+| 3 | Nov 07–Nov 13 | Incorporate instructor feedback into final proposal | All members |
+| 4 | Nov 14–Nov 20 | Begin implementation: data cleaning, preprocessing, initial modeling | Stephen (data), Kayla (modeling) |
+| 5 | Nov 21–Nov 27 | Continue modeling, refine methods, begin visualization and dashboard setup | Kayla (modeling), Stephen (viz/dashboard) |
+| 6 | Nov 28–Dec 04 | Finalize modeling, validate results, begin write-up | Kayla (validation), Stephen (write-up) |
+| 7 | Dec 05–Dec 11 | Conduct peer code review + finalize repo structure | All members |
+| 8 | Dec 12–Dec 16 | Present project + submit final write-up | All members |
 
 ## AI usage disclaimer
+
 ChatGPT was used to confirm the correct formatting of the above table as well as formatting of the above functions. AI was not utilized in any written portions of this assignment.
