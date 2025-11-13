@@ -5,11 +5,16 @@
 
 ## Variable Names and Descriptions:
 
--   **variable**: Description (with units, where applicable)
+-   **Date**: date when data was collected
+-   **Daily Max 8-hour Ozone Concentration**: daily max ozone concentration over 8 hour period (ppm)
+-   **Daily AQI Value**: daily air quality index value
+-   **State**: state in which the data was collected
+-   **County**: county in which the data was collected
 
 ## Data Types:
 
--   **Column**: data type
-
-
-
+-   **Date**: datetime64
+-   **Daily Max 8-hour Ozone Concentration**: float64
+-   **Daily AQI Value**: int64
+-   **State**: object
+-   **County**: object

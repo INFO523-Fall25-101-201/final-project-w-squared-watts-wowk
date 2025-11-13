@@ -80,7 +80,7 @@ Using both spatial and temporal data from the Environmental Protection Agency, d
 ## Weekly Plan of Attack:
 
 | Week | Dates | Tasks & Milestones | Assigned Member |
-|:-----------------|:-----------------|:-------------------|:-----------------|
+|:-----------------|:-----------------|:------------------|:-----------------|
 | 1 | Oct 24–Oct 30 | Draft project proposal and set up GitHub repo structure | Stephen (proposal), Kayla (repo setup) |
 | 2 | Oct 31–Nov 06 | Revise proposal based on peer feedback + receive instructor feedback | Stephen (revision), All members (review response) |
 | 3 | Nov 07–Nov 13 | Incorporate instructor feedback into final proposal | All members |
