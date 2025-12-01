@@ -1,7 +1,7 @@
 ---
-title: "Project title"
-subtitle: "INFO 523 - Summer 2025 - Final Project"
-author: "Author names"
+title: "Impact of Urban Activity on Air Quality"
+subtitle: "INFO 523 - Fall 2025 - Final Project"
+author: "Stephen Watts and Kayla Wowk"
 title-slide-attributes:
   data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg
   data-background-size: stretch
@@ -63,7 +63,7 @@ penguins = sns.load_dataset('penguins').dropna()
 
 You can use plain text
 
-::: columns
+::::: columns
 ::: {.column width="40%"}
 -   or bullet points[^1]
 :::
@@ -71,7 +71,7 @@ You can use plain text
 ::: {.column width="60%"}
 or in two columns
 :::
-:::
+:::::
 
 [^1]: And add footnotes
 
@@ -108,7 +108,7 @@ plt.show()
 
 ## Plot and text
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 -   Some text
 
@@ -124,7 +124,7 @@ sns.boxplot(data=penguins, x='bill_length_mm', y='species', hue='species', ax=ax
 plt.show()
 ```
 :::
-:::
+:::::
 
 # A new section...
 
