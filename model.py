@@ -7,6 +7,9 @@ import statsmodels.formula.api as smf
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
+from prophet import Prophet
+from prophet.make_holidays import make_holidays_df
+from prophet.plot import plot_plotly, plot_components_plotly
 
 # Load in dataframe
 df24 = pd.read_csv('data/CO_2024_MA.csv')
@@ -141,3 +144,26 @@ print(f"Random Forest R²: {r2:.4f}")
 importances = rf.feature_importances_
 for f, imp in sorted(zip(X.columns, importances), key=lambda x: x[1], reverse=True):
     print(f"{f}: {imp:.3f}")
+
+# Prophet model
+df_prophet = df[['Date', 'log_CO']].rename(columns={'Date': 'ds', 'log_CO': 'y'})
+holidays = pd.DataFrame({'holiday': 'us_federal_holiday',
+    'ds': cal.holidays(start=df_prophet['ds'].min(), end=df_prophet['ds'].max()),
+    'lower_window': 0,
+    'upper_window': 1})
+m = Prophet(holidays = holidays, yearly_seasonality=True, weekly_seasonality=True, daily_seasonality=False)
+m.fit(df_prophet)
+
+# Make predictions
+future = m.make_future_dataframe(periods=365)
+forecast = m.predict(future)
+forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
+
+# Forecast plot
+fig1 = m.plot(forecast)
+plt.title("CO Forecast (log_CO)")
+plt.show()
+
+# Plot components
+fig2 = m.plot_components(forecast)
+plt.show()
