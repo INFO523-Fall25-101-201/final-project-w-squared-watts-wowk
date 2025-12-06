@@ -5,7 +5,7 @@ author:
   - name: "W Squared - Stephen Watts, Kayla Wowk"
     affiliations:
       - name: "College of Information Science, University of Arizona"
-description: "Project description"
+description: "Identify the impact of urban activity on air quality in major cities in Massachusetts"
 format:
    html:
     code-tools: true
@@ -20,4 +20,4 @@ jupyter: python3
 
 ## Abstract
 
-Add project abstract here.
+Urban activity patterns can significantly influence air quality, yet their temporal effects remain underexplored in U.S. cities. This study investigates how weekdays, weekends, seasonal variation, and federal holidays affect carbon monoxide (CO) concentrations in major Massachusetts urban centers. Using 2016 to 2024 Environmental Protection Agency (EPA) data, we analyzed daily maximum 8‑hour CO values. Data from 2020 was omitted based on the impact of COVID-19 shutdowns and reduction in traveling having the potential to skew the findings. The dataset was augmented with temporal indicators for season, weekend status, and holiday occurrence, enabling a structured comparison of pollution variability across different activity contexts. Preliminary analysis suggests measurable fluctuations in CO levels between weekdays and weekends, with extended weekends showing amplified effects. Further research is needed to determine the direct implications for urban planning and public health as it pertains to populations vulnerable to respiratory conditions.
