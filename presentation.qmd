@@ -129,9 +129,9 @@ plt.show()
 
 ## Quarto
 
--   The presentation is created using the Quarto CLI
+-   Testing commit changes to website presentation. 
 
--   `##` sets the start of a new slide
+-   Test 2
 
 ## Layouts
 
