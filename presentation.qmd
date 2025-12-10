@@ -15,6 +15,9 @@ editor: visual
 jupyter: python3
 execute:
   echo: false
+  fig-width: 9
+  fig-height: 5
+  fig-dpi: 100
 ---
 
 ```{python}
@@ -123,6 +126,7 @@ plt.xlabel('CO Level')
 plt.ylabel('Frequency')
 plt.show()
 ```
+
 ## CO levels by Season
 
 ```{python}
@@ -132,6 +136,7 @@ plt.xlabel('Season')
 plt.ylabel('CO Level')
 plt.show()
 ```
+
 ## CO levels on Weekends vs Weekdays
 
 ```{python}
@@ -141,6 +146,7 @@ plt.xlabel('Is Weekend')
 plt.ylabel('CO Level')
 plt.show()
 ```
+
 ## CO levels on Long Weekends vs Regular Days
 
 ```{python}
@@ -153,7 +159,7 @@ plt.show()
 
 ## Quarto
 
--   Testing commit changes to website presentation. 
+-   Testing commit changes to website presentation.
 
 -   Test 2
 
