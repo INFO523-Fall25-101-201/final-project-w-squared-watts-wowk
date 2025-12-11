@@ -127,7 +127,7 @@ Does air quality change depending on the time of the week (weekend versus weekda
 :::
 
 ## Data & Methods
-
+::: {.r-fit-text}
 ::::: columns
 ::: {.column width="40%"}
 Data:
@@ -146,9 +146,10 @@ plt.show()
 ```
 :::
 :::::
+:::
 
 ## Data & Methods
-
+::: {.r-fit-text}
 | Variable | Description |
 |-------------------------------|----------------------------------------|
 | `Date` | Date of reading |
@@ -161,6 +162,7 @@ plt.show()
 
 [^1]: 
 - CO is computed by the EPA's Air Quality Statistcs software for each hour of the day as a moving average of eight 1-hour values.
+:::
 
 ## Data & Methods
 
