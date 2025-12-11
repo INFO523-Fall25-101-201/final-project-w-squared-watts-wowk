@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "presentation.html#background-research-question",
+    "href": "presentation.html#background-research-question",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Background & Research Question",
+    "text": "Background & Research Question\n\nDoes air quality change depending on the time of the week (weekend versus weekday), during holidays, and/or during long weekends in major cities in Massachusetts?\nUrban activity patterns can significantly influence air quality, yet their temporal effects remain underexplored in U.S. cities.\nThis study investigates how weekdays, weekends, seasonal variation, and federal holidays affect carbon monoxide (CO) concentrations in major Massachusetts urban centers."
+  },
+  {
+    "objectID": "presentation.html#data-methods",
+    "href": "presentation.html#data-methods",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Data & Methods",
+    "text": "Data & Methods\n\n\nData:\n\nWe examined 2016 to 2024 Environmental Protection Agency (EPA) data, specifically analyzing daily maximum 8‑hour CO values.\nData from 2020 was omitted based on the impact of COVID-19 shutdowns and reduction in traveling having the potential to skew the findings."
+  },
+  {
+    "objectID": "presentation.html#data-methods-1",
+    "href": "presentation.html#data-methods-1",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Data & Methods",
+    "text": "Data & Methods\n\n\n\n\n\n\n\nVariable\nDescription\n\n\n\n\nDate\nDate of reading\n\n\nID\nSite ID where reading was taken\n\n\nCO\nDaily Max 8-hour CO Concentration\n\n\nSeason\nDenotes which season the reading occurred\n\n\nis_weekend\nDenotes if the day the reading occurred was on a weekend\n\n\nis_holiday\nDenotes if the day the reading occurred was on a federal holiday\n\n\nis_long_weekend\nDenotes if the day the reading occurred was on a long weekend"
+  },
+  {
+    "objectID": "presentation.html#preliminary-findings",
+    "href": "presentation.html#preliminary-findings",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Preliminary Findings",
+    "text": "Preliminary Findings"
+  },
+  {
+    "objectID": "presentation.html#interpretation-significance",
+    "href": "presentation.html#interpretation-significance",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Interpretation & Significance",
+    "text": "Interpretation & Significance"
+  },
+  {
+    "objectID": "presentation.html#broader-impacts",
+    "href": "presentation.html#broader-impacts",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Broader Impacts",
+    "text": "Broader Impacts"
+  },
+  {
+    "objectID": "presentation.html#conclusion-closing",
+    "href": "presentation.html#conclusion-closing",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Conclusion & Closing",
+    "text": "Conclusion & Closing"
+  },
+  {
+    "objectID": "presentation.html#co-levels-on-weekends-vs-weekdays",
+    "href": "presentation.html#co-levels-on-weekends-vs-weekdays",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "CO levels on Weekends vs Weekdays",
+    "text": "CO levels on Weekends vs Weekdays"
+  },
+  {
+    "objectID": "presentation.html#co-levels-on-long-weekends-vs-regular-days",
+    "href": "presentation.html#co-levels-on-long-weekends-vs-regular-days",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "CO levels on Long Weekends vs Regular Days",
+    "text": "CO levels on Long Weekends vs Regular Days"
+  },
+  {
+    "objectID": "presentation.html#data-methods-2",
+    "href": "presentation.html#data-methods-2",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Data & Methods",
+    "text": "Data & Methods"
+  },
+  {
+    "objectID": "presentation.html#data-methods-3",
+    "href": "presentation.html#data-methods-3",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Data & Methods",
+    "text": "Data & Methods"
+  },
+  {
+    "objectID": "presentation.html#data-methods-4",
+    "href": "presentation.html#data-methods-4",
+    "title": "Impact of Urban Activity on Air Quality",
+    "section": "Data & Methods",
+    "text": "Data & Methods"
+  }
+]
