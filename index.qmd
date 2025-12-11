@@ -109,11 +109,11 @@ This project investigates how urban activity patterns influence air quality in m
 **Key Variables:**
 
 | Variable | Description |
-|----------|-------------|
+|-------------------------------|----------------------------------------|
 | `Date` | Date of reading |
 | `ID` | Site ID where reading was taken |
 | `CO` | Daily Max 8-hour CO Concentration |
-| `Season` | Denotes which season the reading occurred  |
+| `Season` | Denotes which season the reading occurred |
 | `is_weekend` | Denotes if the day the reading occurred was on a weekend |
 | `is_holiday` | Denotes if the day the reading occurred was on a federal holiday |
 | `is_long_weekend` | Denotes if the day the reading occurred was on a long weekend |
@@ -183,6 +183,7 @@ model_fe = smf.ols("log_CO ~ is_weekend + is_holiday + is_long_weekend + C(ID) +
     data=df).fit(cov_type='cluster', cov_kwds={'groups': df['ID']})
 print(model_fe.summary2())
 ```
+
 To complement the regression analysis, we applied a Random Forest Regressor to capture nonlinear relationships and complex interactions among features such as season, day of week, and holiday status. The Random Forest model provided strong predictive performance, with relatively INSERT RMSE and INSERT R² values, and its feature importance scores revealed that seasonality and day‑of‑week indicators were among the most influential drivers of CO variation. This machine learning approach validated the regression findings while offering additional insight into the relative importance of different predictors.
 
 ```{python}
@@ -238,6 +239,7 @@ plt.show()
 fig2 = m.plot_components(forecast)
 plt.show()
 ```
+
 ## Future Research
 
 Looking ahead, future research could broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. Comparative modeling using approaches like ARIMA, LSTM, or Random Forest could also provide deeper insights into pollutant behavior. Spatial analysis across multiple Massachusetts cities would further enhance the understanding of localized differences. These extensions would not only strengthen the predictive power of the models but also increase their relevance for policy applications.
@@ -248,5 +250,4 @@ In conclusion, this project demonstrates that urban activity patterns affect air
 
 ## AI Disclaimer
 
-Microsoft Copilot was used along side Github Copilot to troubleshoot deployment and code issues within the respoistory and website. 
-
+Microsoft Copilot was used along side Github Copilot to troubleshoot deployment and code issues within the respoistory and website.
