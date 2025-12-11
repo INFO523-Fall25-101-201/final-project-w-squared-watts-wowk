@@ -119,14 +119,18 @@ df['dayofyear'] = df['Date'].dt.dayofyear
 
 ## Background & Research Question
 ::::: columns
-::: {.column width="50%"}
--   Some text
+Does air quality change depending on the time of the week (weekend versus weekday), during holidays, and/or during long weekends in major cities in Massachusetts?
 
--   goes here
+-   Urban activity patterns can significantly influence air quality, yet their temporal effects remain underexplored in U.S. cities. 
+- This study investigates how weekdays, weekends, seasonal variation, and federal holidays affect carbon monoxide (CO) concentrations in major Massachusetts urban centers.
 :::::
 
 ## Data & Methods
-
+::::: columns
+Data
+- We examined 2016 to 2024 Environmental Protection Agency (EPA) data, specifically analyzing daily maximum 8‑hour CO values. 
+- Data from 2020 was omitted based on the impact of COVID-19 shutdowns and reduction in traveling having the potential to skew the findings.
+:::::
 
 ## Preliminary Findings
 
@@ -180,101 +184,3 @@ plt.ylabel('CO Level')
 plt.show()
 ```
 
-## Quarto
-
--   Testing commit changes to website presentation.
-
--   Test 2
-
-## Layouts
-
-You can use plain text
-
-::::: columns
-::: {.column width="40%"}
--   or bullet points[^1]
-:::
-
-::: {.column width="60%"}
-or in two columns
-:::
-:::::
-
-[^1]: And add footnotes
-
--   like
-
--   this
-
-## Code
-
-```{python}
-
-
-```
-
-## Plots
-
-```{python}
-
-
-
-```
-
-## Plot and text
-
-::::: columns
-::: {.column width="50%"}
--   Some text
-
--   goes here
-:::
-
-::: {.column width="50%"}
-```{python}
-
-
-```
-:::
-:::::
-
-# A new section...
-
-## Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{python}
-
-
-```
-
-## Images
-
-![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png){fig-align="center" width="500"}
-
-## Math Expressions {.smaller}
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. \$\\alpha+\\beta\$ renders $\alpha + \beta$. You can use the display style with double dollar signs:
-
-```         
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$
-\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i
-$$
-
-Limitations:
-
-1.  The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-2.  There should not be spaces after the opening `$` or before the closing `$`.
-
-# Wrap up
-
-## Feeling adventurous?
-
--   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
--   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.
