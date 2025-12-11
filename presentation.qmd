@@ -128,13 +128,16 @@ Does air quality change depending on the time of the week (weekend versus weekda
 ## Data & Methods
 ::::: columns
 ::: {.column width="50%"}
+
 Data:
 
 - We examined 2016 to 2024 Environmental Protection Agency (EPA) data, specifically analyzing daily maximum 8‑hour CO values. 
 - Data from 2020 was omitted based on the impact of COVID-19 shutdowns and reduction in traveling having the potential to skew the findings.
+
 :::
 
 ::: {.column width="50%"}
+
 | Variable | Description |
 |----------|-------------|
 | `Date` | Date of reading |
@@ -144,15 +147,18 @@ Data:
 | `is_weekend` | Denotes if the day the reading occurred was on a weekend |
 | `is_holiday` | Denotes if the day the reading occurred was on a federal holiday |
 | `is_long_weekend` | Denotes if the day the reading occurred was on a long weekend |
+
 :::
 
 [^1]: 
 - CO is computed by the EPA's Air Quality Statistcs software for each hour of the day as a moving average of eight 1-hour values.
+
 :::::
 
 ## Data & Methods
 ::::: columns
 ::: {.column width="33%"}
+
 ```{python}
 sns.boxplot(x='Season', y='CO', data=df)
 plt.title('CO Levels by Season')
@@ -160,9 +166,11 @@ plt.xlabel('Season')
 plt.ylabel('CO Level')
 plt.show()
 ```
+
 :::
 
 ::: {.column width="33%"}
+
 ```{python}
 sns.boxplot(x='is_weekend', y='CO', data=df)
 plt.title('CO Levels: Weekends vs Weekdays')
@@ -170,9 +178,11 @@ plt.xlabel('Is Weekend')
 plt.ylabel('CO Level')
 plt.show()
 ```
+
 :::
 
 ::: {.column width="33%"}
+
 ```{python}
 sns.boxplot(x='is_long_weekend', y='CO', data=df)
 plt.title('CO Levels: Long Weekends vs Regular Days')
@@ -180,6 +190,7 @@ plt.xlabel('Is Long Weekend')
 plt.ylabel('CO Level')
 plt.show()
 ```
+
 :::
 :::::
 
