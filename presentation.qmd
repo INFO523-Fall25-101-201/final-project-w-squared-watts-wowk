@@ -279,14 +279,33 @@ plt.show()
 :::::
 
 ## Interpretation & Significance
+
 * The most singificant predictors of CO levels that we explored in this project were day of the year, day of the week, and season. 
+
 * While long weekends did not have a large effect on CO levels, our OLS model confirmed a statistically significant decrease in CO levels during long weekends compared to holidays and weekends alone. 
+
 * To truly evaluate urban activity affect on CO levels, we would need to broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. However, we were not able to find publically available data for these factors in Massachusetts.
 
 ## Broader Impacts
+- Analyses like these are important to understanding the impacts of how our activities can be contributing to air quality changes. 
+
+- Results could inform strategies to mitigate exposure risks, especially for those of us at high risk for respiratory distress.
+
 
 
 ## Conclusion & Closing
 * This project demonstrates that urban activity patterns affect air quality, with weekends and holidays reducing CO concentrations and extended weekends amplifying these effects on a statistically significant basis. 
+
 * The Prophet model proved effective in capturing these temporal dynamics, underscoring the importance of considering human activity cycles in environmental sustainability research. 
+
 * By expanding the dataset and incorporating additional pollutants and contextual factors, future work can build on this foundation to provide more comprehensive insights that support urban planning and public health initiatives.
+
+## Thank you!
+
+Information:
+
+* Link to return to website: https://info523-fall25-101-201.github.io/final-project-w-squared-watts-wowk/
+
+* Github Repository: https://github.com/INFO523-Fall25-101-201/final-project-w-squared-watts-wowk
+
+* Contact: College of Information Science, University of Arizona
