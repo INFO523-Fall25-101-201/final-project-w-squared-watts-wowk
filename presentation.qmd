@@ -279,12 +279,15 @@ plt.show()
 :::::
 
 ## Interpretation & Significance
-
+::: {.r-fit-text}
+::::: columns
 * The most singificant predictors of CO levels that we explored in this project were day of the year, day of the week, and season. 
 
 * While long weekends did not have a large effect on CO levels, our OLS model confirmed a statistically significant decrease in CO levels during long weekends compared to holidays and weekends alone. 
 
 * To truly evaluate urban activity affect on CO levels, we would need to broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. However, we were not able to find publically available data for these factors in Massachusetts.
+:::::
+:::
 
 ## Broader Impacts
 - Analyses like these are important to understanding the impacts of how our activities can be contributing to air quality changes. 
@@ -294,11 +297,15 @@ plt.show()
 
 
 ## Conclusion & Closing
+::: {.r-fit-text}
+::::: columns
 * This project demonstrates that urban activity patterns affect air quality, with weekends and holidays reducing CO concentrations and extended weekends amplifying these effects on a statistically significant basis. 
 
 * The Prophet model proved effective in capturing these temporal dynamics, underscoring the importance of considering human activity cycles in environmental sustainability research. 
 
 * By expanding the dataset and incorporating additional pollutants and contextual factors, future work can build on this foundation to provide more comprehensive insights that support urban planning and public health initiatives.
+:::::
+:::
 
 ## Thank you!
 
