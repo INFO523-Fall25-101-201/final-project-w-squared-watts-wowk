@@ -179,7 +179,7 @@ For the data mining and discovery phase, we employed a multi‑model approach to
 
 ```{python}
 # OLS Regression with Fixed Effects
-model_fe = smf.ols("log_CO ~ is_weekend + is_holiday + is_long_weekend + C(ID) + C(month)",
+model_fe = smf.ols("log_CO ~ is_weekend + is_holiday + is_long_weekend + C(month)",
     data=df).fit(cov_type='cluster', cov_kwds={'groups': df['ID']})
 print(model_fe.summary2())
 ```

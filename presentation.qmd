@@ -150,6 +150,8 @@ plt.show()
 
 ## Data & Methods
 ::: {.r-fit-text}
+::: columns
+
 | Variable | Description |
 |-------------------------------|----------------------------------------|
 | `Date` | Date of reading |
@@ -160,8 +162,9 @@ plt.show()
 | `is_holiday` | Denotes if the day the reading occurred was on a federal holiday |
 | `is_long_weekend` | Denotes if the day the reading occurred was on a long weekend |
 
-[^1]: 
 - CO is computed by the EPA's Air Quality Statistcs software for each hour of the day as a moving average of eight 1-hour values.
+
+:::
 :::
 
 ## Data & Methods
@@ -194,8 +197,40 @@ plt.ylabel('CO Level')
 plt.show()
 ```
 
+## Preliminary Findings
+::: {.r-fit-text}
+::::: columns
+::: {.column width="70%"}
+![Results of OLS](images/OLS%20Results.png)
+:::
+::: {.column width="30%"}
+*  Random Forest Results:
+
+    - RMSE: 0.1510
+
+    - Random Forest R²: 0.1497
+
+* Feature Importance:
+
+    - dayofyear: 0.610
+
+    - dayofweek: 0.205
+
+    - Season: 0.120
+
+    - is_long_weekend: 0.020
+
+    - month: 0.019
+
+    - is_weekend: 0.018
+
+    - is_holiday: 0.008
+:::
+:::::
+:::
 
 ## Preliminary Findings
+
 
 ## Interpretation & Significance
 
