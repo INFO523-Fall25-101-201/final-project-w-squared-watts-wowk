@@ -233,6 +233,10 @@ plt.show()
 
 ## Preliminary Findings {.scrollable}
 Prophet time‑series forecasting model
+
+::::: columns
+::: {.column width="50%"}
+
 ```{python}
 # Normalization and Cleaning
 df = df[df['CO'] > 0].copy()
@@ -254,12 +258,29 @@ future = m.make_future_dataframe(periods=365)
 forecast = m.predict(future)
 forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
 
+# Forecast plot
+fig1 = m.plot(forecast)
+plt.title("CO Forecast (log_CO)")
+plt.xlabel("Date")
+plt.show()
+```
+
+:::
+::: {.column width="50%"}
+
+```{python}
 # Plot components
 fig2 = m.plot_components(forecast)
 plt.show()
 ```
 
+:::
+:::::
+
 ## Interpretation & Significance
+* The most singificant predictors of CO levels that we explored in this project were day of the year, day of the week, and season. 
+* While long weekends did not have a large effect on CO levels, our OLS model confirmed a statistically significant decrease in CO levels during long weekends compared to holidays and weekends alone. 
+* To truly evaluate urban activity affect on CO levels, we would need to broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. However, our research led us to the discovery that these data are not available publically for Massachusetts.
 
 ## Broader Impacts
 
