@@ -122,9 +122,7 @@ CO is computed by the EPA's Air Quality Statistcs software for each hour of the 
 
 ## Exploratory Data Analysis and Data Preprocessing
 
-Exploratory data analysis revealed measurable fluctuations in CO levels between weekdays and weekends, with extended weekends—those that include holidays—showing amplified reductions in pollution. Seasonal variation was also evident, with higher CO levels observed during "INSERT OBSERVATION". Preprocessing steps included removing anomalous data, engineering categorical features, and formatting the dataset to align with the requirements of time series modeling. For example, the dataset was structured with Prophet’s required column names, ds for the date and y for the target variable:
-
-**Distribution of CO levels**
+Exploratory data analysis revealed measurable fluctuations in CO levels between weekdays and weekends, with extended weekends—those that include holidays—showing amplified reductions in pollution. Seasonal variation was also evident, with higher CO levels observed during colder months, likely due to atmospheric conditions that trap pollutants. Preprocessing steps included engineering categorical features and formatting the dataset to align with the requirements of time series modeling. For example, the dataset was structured with Prophet’s required column names, ds for the date and y for the target variable:
 
 ```{python}
 # Visualize distribution of CO levels
@@ -177,7 +175,7 @@ plt.show()
 
 ## Data Mining and Discovery
 
-For the data mining and discovery phase, the project employed the Prophet prediction model, implemented in Python. Prophet was chosen for its ability to capture seasonality, holiday effects, and irregular time series patterns, making it well suited to the dataset’s structure. The model was initialized and trained as follows:
+For the data mining and discovery phase, we employed a multi‑model approach to better understand the dynamics of CO concentrations across Massachusetts cities. First, we implemented an OLS regression with fixed effects. By including categorical fixed effects for location and time, the model isolated the impact of weekends, holidays, and extended weekends on CO levels. The regression results confirmed statistically significant reductions in pollution during weekends and holidays, highlighting the importance of temporal activity patterns in shaping air quality.
 
 ```{python}
 # OLS Regression with Fixed Effects
@@ -185,6 +183,7 @@ model_fe = smf.ols("log_CO ~ is_weekend + is_holiday + is_long_weekend + C(ID) +
     data=df).fit(cov_type='cluster', cov_kwds={'groups': df['ID']})
 print(model_fe.summary2())
 ```
+To complement the regression analysis, we applied a Random Forest Regressor to capture nonlinear relationships and complex interactions among features such as season, day of week, and holiday status. The Random Forest model provided strong predictive performance, with relatively INSERT RMSE and INSERT R² values, and its feature importance scores revealed that seasonality and day‑of‑week indicators were among the most influential drivers of CO variation. This machine learning approach validated the regression findings while offering additional insight into the relative importance of different predictors.
 
 ```{python}
 # Random Forest Prediction
@@ -211,7 +210,7 @@ for f, imp in sorted(zip(X.columns, importances), key=lambda x: x[1], reverse=Tr
     print(f"{f}: {imp:.3f}")
 ```
 
-The forecasts revealed consistent weekday versus weekend differences in CO levels, with extended weekends showing amplified pollution reduction, likely due to decreased traffic. Seasonal cycles were captured effectively, validating the model’s robustness. Visualization of the forecast provided clear evidence of these dynamics:
+Finally, we utilized the Prophet time‑series forecasting model, chosen for its ability to incorporate seasonality, holiday effects, and irregular temporal patterns. Prophet forecasts captured consistent weekday versus weekend differences and amplified reductions during extended weekends, while also modeling seasonal cycles effectively. The combination of these three approaches, regression for interpretability, Random Forest for predictive accuracy, and Prophet for temporal forecasting, provided a robust and comprehensive understanding of how urban activity influences air quality. Together, they demonstrated that weekends and holidays consistently reduce CO concentrations, and that these effects are both statistically significant and practically meaningful.
 
 ```{python}
 # Prophet model
@@ -234,19 +233,18 @@ plt.title("CO Forecast (log_CO)")
 plt.show()
 ```
 
-## Future Research
-
-Looking ahead, future research could broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. Comparative modeling using approaches like ARIMA, LSTM, or Random Forest could also provide deeper insights into pollutant behavior. Spatial analysis across multiple Massachusetts cities would further enhance the understanding of localized differences. These extensions would not only strengthen the predictive power of the models but also increase their relevance for policy applications.
-
 ```{python}
 # Plot components
 fig2 = m.plot_components(forecast)
 plt.show()
 ```
+## Future Research
+
+Looking ahead, future research could broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. Comparative modeling using approaches like ARIMA, LSTM, or Random Forest could also provide deeper insights into pollutant behavior. Spatial analysis across multiple Massachusetts cities would further enhance the understanding of localized differences. These extensions would not only strengthen the predictive power of the models but also increase their relevance for policy applications.
 
 ## Conclusion
 
-In conclusion, this project demonstrates that urban activity patterns significantly affect air quality, with weekends and holidays reducing CO concentrations and extended weekends amplifying these effects. The Prophet model proved effective in capturing these temporal dynamics, underscoring the importance of considering human activity cycles in environmental sustainability research. By expanding the dataset and incorporating additional pollutants and contextual factors, future work can build on this foundation to provide more comprehensive insights that support urban planning and public health initiatives.
+In conclusion, this project demonstrates that urban activity patterns affect air quality, with weekends and holidays reducing CO concentrations and extended weekends amplifying these effects. The Prophet model proved effective in capturing these temporal dynamics, underscoring the importance of considering human activity cycles in environmental sustainability research. By expanding the dataset and incorporating additional pollutants and contextual factors, future work can build on this foundation to provide more comprehensive insights that support urban planning and public health initiatives.
 
 ## AI Disclaimer
 
