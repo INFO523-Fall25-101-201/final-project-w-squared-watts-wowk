@@ -117,6 +117,29 @@ df['month'] = df['Date'].dt.month
 df['dayofyear'] = df['Date'].dt.dayofyear
 ```
 
+## Background & Research Question
+::::: columns
+::: {.column width="50%"}
+-   Some text
+
+-   goes here
+:::::
+
+## Data & Methods
+
+
+## Preliminary Findings
+
+
+## Interpretation & Significance
+
+
+## Broader Impacts
+
+
+## Conclusion & Closing
+
+
 ## Distribution of CO Levels
 
 ```{python}
