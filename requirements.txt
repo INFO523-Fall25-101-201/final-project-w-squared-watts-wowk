@@ -1,3 +1,5 @@
 jupyter
 nbformat
 prophet
+cmdstanpy
+pystan
