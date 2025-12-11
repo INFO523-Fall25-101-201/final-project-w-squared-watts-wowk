@@ -18,6 +18,235 @@ execute:
 jupyter: python3
 ---
 
+```{python}
+import pandas as pd
+import numpy as np
+from pandas.tseries.holiday import USFederalHolidayCalendar
+import seaborn as sns
+import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+from prophet import Prophet
+from prophet.make_holidays import make_holidays_df
+from prophet.plot import plot_plotly, plot_components_plotly
+
+# Load in dataframe
+df24 = pd.read_csv('data/CO_2024_MA.csv')
+df23 = pd.read_csv('data/CO_2023_MA.csv')
+df22 = pd.read_csv('data/CO_2022_MA.csv')
+df21 = pd.read_csv('data/CO_2021_MA.csv')
+df19 = pd.read_csv('data/CO_2019_MA.csv')
+df18 = pd.read_csv('data/CO_2018_MA.csv')
+df17 = pd.read_csv('data/CO_2017_MA.csv')
+df16 = pd.read_csv('data/CO_2016_MA.csv')
+df_all = pd.concat([df24, df23, df22, df21, df19, df18, df17, df16], ignore_index=True)
+
+# Rename Daily Max 8-hour CO Concentration
+df_all.rename(columns={'Daily Max 8-hour CO Concentration': 'CO'}, inplace=True)
+
+# Convert dates to datetime
+df_all['Date'] = pd.to_datetime(df_all['Date'])
+
+# Create column for seasons
+def get_season(month):
+    '''Returns the season for a given date'''
+    if 3 <= month <= 5:
+        return 'Spring'
+    if 6 <= month <= 8:
+        return 'Summer'
+    if 9 <= month <= 11:
+        return 'Fall'
+    return 'Winter'
+df_all['Season'] = df_all['Date'].dt.month.apply(get_season)
+
+# Create column that signifies if it is a weekend
+df_all['is_weekend'] = df_all['Date'].dt.dayofweek >= 5
+
+# Create column that signifies if it is a federal holiday
+cal = USFederalHolidayCalendar()
+holidays = cal.holidays(start=df_all['Date'].min(), end=df_all['Date'].max())
+df_all['is_holiday'] = df_all['Date'].isin(holidays)
+
+# Determine which holidays create long weekends
+holidays = pd.Series(holidays)
+
+# Identify holidays that fall near or on weekends
+weekend_expanding_holidays = holidays[(holidays.dt.dayofweek == 4) |
+    (holidays.dt.dayofweek == 5) |
+    (holidays.dt.dayofweek == 6) |
+    (holidays.dt.dayofweek == 0)]
+
+# Define long weekend days
+df_all['is_long_weekend'] = (df_all['Date'].isin(weekend_expanding_holidays) |
+    df_all['Date'].isin(weekend_expanding_holidays - pd.Timedelta(days=1)) |
+    df_all['Date'].isin(weekend_expanding_holidays + pd.Timedelta(days=1)))
+
+# Keep relevant columns only
+df = df_all[['Date', 'Site ID', 'CO', 'Season', 'is_weekend',
+          'is_holiday', 'is_long_weekend']]
+
+#Rename Site ID
+df.rename(columns={'Site ID': 'ID'}, inplace=True)
+
+# Day of week and month for modeling
+df['dayofweek'] = df['Date'].dt.dayofweek
+df['month'] = df['Date'].dt.month
+df['dayofyear'] = df['Date'].dt.dayofyear
+```
+
 ## Abstract
 
 Urban activity patterns can significantly influence air quality, yet their temporal effects remain underexplored in U.S. cities. This study investigates how weekdays, weekends, seasonal variation, and federal holidays affect carbon monoxide (CO) concentrations in major Massachusetts urban centers. Using 2016 to 2024 Environmental Protection Agency (EPA) data, we analyzed daily maximum 8‑hour CO values. Data from 2020 was omitted based on the impact of COVID-19 shutdowns and reduction in traveling having the potential to skew the findings. The dataset was augmented with temporal indicators for season, weekend status, and holiday occurrence, enabling a structured comparison of pollution variability across different activity contexts. Preliminary analysis suggests measurable fluctuations in CO levels between weekdays and weekends, with extended weekends showing amplified effects. Further research is needed to determine the direct implications for urban planning and public health as it pertains to populations vulnerable to respiratory conditions.
+
+## Introduction
+
+This project investigates how urban activity patterns influence air quality in major Massachusetts cities, with a particular focus on carbon monoxide (CO) concentrations. The dataset, drawn from the Environmental Protection Agency (EPA), contains daily maximum 8 hour CO values spanning 2016 to 2024. Data from 2020 was intentionally excluded due to the impact of COVID 19 shutdowns, which significantly reduced travel and could have skewed the findings. To enrich the dataset, temporal indicators such as season, weekend status, and holiday occurrence were added, allowing for structured comparisons of pollution variability across different activity contexts. The goal of this research is to better understand how human activity cycles affect air quality and to provide insights that may inform urban planning and public health strategies.
+
+### Dataset
+
+**Key Variables:**
+
+| Variable | Description |
+|----------|-------------|
+| `Date` | Date of reading |
+| `ID` | Site ID where reading was taken |
+| `CO` | Daily Max 8-hour CO Concentration |
+| `Season` | Denotes which season the reading occurred  |
+| `is_weekend` | Denotes if the day the reading occurred was on a weekend |
+| `is_holiday` | Denotes if the day the reading occurred was on a federal holiday |
+| `is_long_weekend` | Denotes if the day the reading occurred was on a long weekend |
+
+CO is computed by the EPA's Air Quality Statistcs software for each hour of the day as a moving average of eight 1-hour values.
+
+## Exploratory Data Analysis and Data Preprocessing
+
+Exploratory data analysis revealed measurable fluctuations in CO levels between weekdays and weekends, with extended weekends—those that include holidays—showing amplified reductions in pollution. Seasonal variation was also evident, with higher CO levels observed during "INSERT OBSERVATION". Preprocessing steps included removing anomalous data, engineering categorical features, and formatting the dataset to align with the requirements of time series modeling. For example, the dataset was structured with Prophet’s required column names, ds for the date and y for the target variable:
+
+```{python}
+# Visualize distribution of CO levels
+sns.histplot(df['CO'], bins=30, kde=True)
+plt.title('Distribution of CO Levels')
+plt.xlabel('CO Level')
+plt.ylabel('Frequency')
+plt.show()
+```
+
+```{python}
+# Visualize CO levels by Season
+sns.boxplot(x='Season', y='CO', data=df)
+plt.title('CO Levels by Season')
+plt.xlabel('Season')
+plt.ylabel('CO Level')
+plt.show()
+```
+
+```{python}
+# Visualize CO levels on Weekends vs Weekdays
+sns.boxplot(x='is_weekend', y='CO', data=df)
+plt.title('CO Levels: Weekends vs Weekdays')
+plt.xlabel('Is Weekend')
+plt.ylabel('CO Level')
+plt.show()
+```
+
+```{python}
+# Visualize CO levels on Long Weekends vs Regular Days
+sns.boxplot(x='is_long_weekend', y='CO', data=df)
+plt.title('CO Levels: Long Weekends vs Regular Days')
+plt.xlabel('Is Long Weekend')
+plt.ylabel('CO Level')
+plt.show()
+```
+
+```{python}
+# Normalization and Cleaning
+df = df[df['CO'] > 0].copy()
+df['log_CO'] = np.log(df['CO'])
+
+# Visualize distribution of log_CO levels
+sns.histplot(df['log_CO'], bins=30, kde=True)
+plt.title('Distribution of log_CO Levels')
+plt.xlabel('log_CO Level')
+plt.ylabel('Frequency')
+plt.show()
+```
+
+## Data Mining and Discovery
+
+For the data mining and discovery phase, the project employed the Prophet prediction model, implemented in Python. Prophet was chosen for its ability to capture seasonality, holiday effects, and irregular time series patterns, making it well suited to the dataset’s structure. The model was initialized and trained as follows:
+
+```{python}
+# OLS Regression with Fixed Effects
+model_fe = smf.ols("log_CO ~ is_weekend + is_holiday + is_long_weekend + C(ID) + C(month)",
+    data=df).fit(cov_type='cluster', cov_kwds={'groups': df['ID']})
+print(model_fe.summary2())
+```
+
+```{python}
+# Random Forest Prediction
+df_rf = df.copy()
+df_rf['Season'] = df_rf['Season'].astype('category').cat.codes
+X = df_rf[['is_weekend','is_holiday','is_long_weekend','Season','month','dayofweek','dayofyear']]
+y = df_rf['log_CO']
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Random Forest Regressor
+rf = RandomForestRegressor(n_estimators=300, max_depth=12, random_state=42)
+rf.fit(X_train, y_train)
+preds = rf.predict(X_test)
+rmse = mean_squared_error(y_test, preds)
+r2 = r2_score(y_test, preds)
+print(f"Random Forest RMSE: {rmse:.4f}")
+print(f"Random Forest R²: {r2:.4f}")
+
+# Feature importance
+importances = rf.feature_importances_
+for f, imp in sorted(zip(X.columns, importances), key=lambda x: x[1], reverse=True):
+    print(f"{f}: {imp:.3f}")
+```
+
+The forecasts revealed consistent weekday versus weekend differences in CO levels, with extended weekends showing amplified pollution reduction, likely due to decreased traffic. Seasonal cycles were captured effectively, validating the model’s robustness. Visualization of the forecast provided clear evidence of these dynamics:
+
+```{python}
+# Prophet model
+df_prophet = df[['Date', 'log_CO']].rename(columns={'Date': 'ds', 'log_CO': 'y'})
+holidays = pd.DataFrame({'holiday': 'us_federal_holiday',
+    'ds': cal.holidays(start=df_prophet['ds'].min(), end=df_prophet['ds'].max()),
+    'lower_window': 0,
+    'upper_window': 1})
+m = Prophet(holidays = holidays, yearly_seasonality=True, weekly_seasonality=True, daily_seasonality=False)
+m.fit(df_prophet)
+
+# Make predictions
+future = m.make_future_dataframe(periods=365)
+forecast = m.predict(future)
+forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
+
+# Forecast plot
+fig1 = m.plot(forecast)
+plt.title("CO Forecast (log_CO)")
+plt.show()
+```
+
+## Future Research
+
+Looking ahead, future research could broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. Comparative modeling using approaches like ARIMA, LSTM, or Random Forest could also provide deeper insights into pollutant behavior. Spatial analysis across multiple Massachusetts cities would further enhance the understanding of localized differences. These extensions would not only strengthen the predictive power of the models but also increase their relevance for policy applications.
+
+```{python}
+# Plot components
+fig2 = m.plot_components(forecast)
+plt.show()
+```
+
+## Conclusion
+
+In conclusion, this project demonstrates that urban activity patterns significantly affect air quality, with weekends and holidays reducing CO concentrations and extended weekends amplifying these effects. The Prophet model proved effective in capturing these temporal dynamics, underscoring the importance of considering human activity cycles in environmental sustainability research. By expanding the dataset and incorporating additional pollutants and contextual factors, future work can build on this foundation to provide more comprehensive insights that support urban planning and public health initiatives.
+
+## AI Disclaimer
+
+Microsoft Copilot was used along side Github Copilot to troubleshoot deployment and code issues within the respoistory and website. 
+
