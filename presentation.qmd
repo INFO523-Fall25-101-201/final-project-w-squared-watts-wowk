@@ -245,14 +245,13 @@ df = df[df['CO'] > 0].copy()
 df['log_CO'] = np.log(df['CO'])
 
 # Prophet model
-df_prophet = df[['Date', 'log_CO']].rename(
-    columns={'Date': 'ds', 'log_CO': 'y'})
+df_prophet = df[['Date', 'log_CO']].rename(columns={'Date': 'ds', 'log_CO': 'y'})
 holidays = pd.DataFrame({'holiday': 'us_federal_holiday',
-                         'ds': cal.holidays(start=df_prophet['ds'].min(), end=df_prophet['ds'].max()),
-                         'lower_window': 0,
-                         'upper_window': 1})
-m = Prophet(holidays=holidays, yearly_seasonality=True,
-            weekly_seasonality=True, daily_seasonality=False)
+    'ds': cal.holidays(start=df_prophet['ds'].min(), end=df_prophet['ds'].max()),
+    'lower_window': 0,
+    'upper_window': 1})
+m = Prophet(holidays = holidays, yearly_seasonality=True, weekly_seasonality=True,
+           daily_seasonality=False, changepoint_prior_scale = 0.5)
 m.fit(df_prophet)
 
 # Make predictions
@@ -282,11 +281,13 @@ plt.show()
 ## Interpretation & Significance
 ::: {.r-fit-text}
 ::::: columns
+
 * The most singificant predictors of CO levels that we explored in this project were day of the year, day of the week, and season. 
 
 * While long weekends did not have a large effect on CO levels, our OLS model confirmed a statistically significant decrease in CO levels during long weekends compared to holidays and weekends alone. 
 
 * To truly evaluate urban activity affect on CO levels, we would need to broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. However, we were not able to find publically available data for these factors in Massachusetts.
+
 :::::
 :::
 
@@ -300,11 +301,13 @@ plt.show()
 ## Conclusion & Closing
 ::: {.r-fit-text}
 ::::: columns
+
 * This project demonstrates that urban activity patterns affect air quality, with weekends and holidays reducing CO concentrations and extended weekends amplifying these effects on a statistically significant basis. 
 
 * The Prophet model proved effective in capturing these temporal dynamics, underscoring the importance of considering human activity cycles in environmental sustainability research. 
 
 * By expanding the dataset and incorporating additional pollutants and contextual factors, future work can build on this foundation to provide more comprehensive insights that support urban planning and public health initiatives.
+
 :::::
 :::
 

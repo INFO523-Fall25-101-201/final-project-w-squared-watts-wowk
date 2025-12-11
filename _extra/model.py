@@ -151,7 +151,8 @@ holidays = pd.DataFrame({'holiday': 'us_federal_holiday',
     'ds': cal.holidays(start=df_prophet['ds'].min(), end=df_prophet['ds'].max()),
     'lower_window': 0,
     'upper_window': 1})
-m = Prophet(holidays = holidays, yearly_seasonality=True, weekly_seasonality=True, daily_seasonality=False)
+m = Prophet(holidays = holidays, yearly_seasonality=True, weekly_seasonality=True, daily_seasonality=False,
+            changepoint_prior_scale = 0.5)
 m.fit(df_prophet)
 
 # Make predictions
