@@ -124,6 +124,8 @@ CO is computed by the EPA's Air Quality Statistcs software for each hour of the 
 
 Exploratory data analysis revealed measurable fluctuations in CO levels between weekdays and weekends, with extended weekends—those that include holidays—showing amplified reductions in pollution. Seasonal variation was also evident, with higher CO levels observed during "INSERT OBSERVATION". Preprocessing steps included removing anomalous data, engineering categorical features, and formatting the dataset to align with the requirements of time series modeling. For example, the dataset was structured with Prophet’s required column names, ds for the date and y for the target variable:
 
+**Distribution of CO levels**
+
 ```{python}
 # Visualize distribution of CO levels
 sns.histplot(df['CO'], bins=30, kde=True)
