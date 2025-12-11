@@ -10,6 +10,7 @@ title-slide-attributes:
 format:
   revealjs:
     theme:  ['data/customtheming.scss']
+    slideNumber: true
   
 editor: visual
 jupyter: python3
