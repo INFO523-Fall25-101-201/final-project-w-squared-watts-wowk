@@ -121,7 +121,7 @@ df['dayofyear'] = df['Date'].dt.dayofyear
 ::::: columns
 Does air quality change depending on the time of the week (weekend versus weekday), during holidays, and/or during long weekends in major cities in Massachusetts?
 
--   Urban activity patterns can significantly influence air quality, yet their temporal effects remain underexplored in U.S. cities. 
+- Urban activity patterns can significantly influence air quality, yet their temporal effects remain underexplored in U.S. cities. 
 - This study investigates how weekdays, weekends, seasonal variation, and federal holidays affect carbon monoxide (CO) concentrations in major Massachusetts urban centers.
 :::::
 
@@ -151,6 +151,37 @@ Data:
 :::::
 
 ## Data & Methods
+::::: columns
+::: {.column width="33%"}
+```{python}
+sns.boxplot(x='Season', y='CO', data=df)
+plt.title('CO Levels by Season')
+plt.xlabel('Season')
+plt.ylabel('CO Level')
+plt.show()
+```
+:::
+
+::: {.column width="33%"}
+```{python}
+sns.boxplot(x='is_weekend', y='CO', data=df)
+plt.title('CO Levels: Weekends vs Weekdays')
+plt.xlabel('Is Weekend')
+plt.ylabel('CO Level')
+plt.show()
+```
+:::
+
+::: {.column width="33%"}
+```{python}
+sns.boxplot(x='is_long_weekend', y='CO', data=df)
+plt.title('CO Levels: Long Weekends vs Regular Days')
+plt.xlabel('Is Long Weekend')
+plt.ylabel('CO Level')
+plt.show()
+```
+:::
+:::::
 
 ## Preliminary Findings
 
@@ -164,43 +195,11 @@ Data:
 ## Conclusion & Closing
 
 
-## Distribution of CO Levels
-
-```{python}
-sns.histplot(df['CO'], bins=30, kde=True)
-plt.title('Distribution of CO Levels')
-plt.xlabel('CO Level')
-plt.ylabel('Frequency')
-plt.show()
-```
-
-## CO levels by Season
-
-```{python}
-sns.boxplot(x='Season', y='CO', data=df)
-plt.title('CO Levels by Season')
-plt.xlabel('Season')
-plt.ylabel('CO Level')
-plt.show()
-```
 
 ## CO levels on Weekends vs Weekdays
 
-```{python}
-sns.boxplot(x='is_weekend', y='CO', data=df)
-plt.title('CO Levels: Weekends vs Weekdays')
-plt.xlabel('Is Weekend')
-plt.ylabel('CO Level')
-plt.show()
-```
+
 
 ## CO levels on Long Weekends vs Regular Days
 
-```{python}
-sns.boxplot(x='is_long_weekend', y='CO', data=df)
-plt.title('CO Levels: Long Weekends vs Regular Days')
-plt.xlabel('Is Long Weekend')
-plt.ylabel('CO Level')
-plt.show()
-```
 
