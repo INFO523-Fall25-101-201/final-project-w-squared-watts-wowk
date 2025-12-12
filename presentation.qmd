@@ -165,7 +165,7 @@ plt.show()
 | `is_holiday` | Denotes if the day the reading occurred was on a federal holiday |
 | `is_long_weekend` | Denotes if the day the reading occurred was on a long weekend |
 
-- CO is computed by the EPA's Air Quality Statistcs software for each hour of the day as a moving average of eight 1-hour values.
+- CO is computed by the EPA's Air Quality Statistics software for each hour of the day as a moving average of eight 1-hour values.
 
 :::
 :::
@@ -282,7 +282,7 @@ plt.show()
 ::: {.r-fit-text}
 ::::: columns
 
-* The most singificant predictors of CO levels that we explored in this project were day of the year, day of the week, and season. 
+* The most significant predictors of CO levels that we explored in this project were day of the year, day of the week, and season. 
 
 * While long weekends did not have a large effect on CO levels, our OLS model confirmed a statistically significant decrease in CO levels during long weekends compared to holidays and weekends alone. 
 
