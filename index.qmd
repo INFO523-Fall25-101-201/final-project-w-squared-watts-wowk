@@ -118,7 +118,7 @@ This project investigates how urban activity patterns influence air quality in m
 | `is_holiday` | Denotes if the day the reading occurred was on a federal holiday |
 | `is_long_weekend` | Denotes if the day the reading occurred was on a long weekend |
 
-CO is computed by the EPA's Air Quality Statistcs software for each hour of the day as a moving average of eight 1-hour values.
+CO is computed by the EPA's Air Quality Statistics software for each hour of the day as a moving average of eight 1-hour values.
 
 ## Exploratory Data Analysis and Data Preprocessing
 
@@ -230,7 +230,7 @@ plt.show()
 
 ## Future Research
 
-Looking ahead, future research could broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. Comparative modeling using approaches like ARIMA, LSTM, or Random Forest could also provide deeper insights into pollutant behavior. Spatial analysis across multiple Massachusetts cities would further enhance the understanding of localized differences. These extensions would not only strengthen the predictive power of the models but also increase their relevance for policy applications.
+Looking ahead, future research could broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. Comparative modeling using approaches like ARIMA, LSTM, or Random Forest (with additional variables) could also provide deeper insights into pollutant behavior. Spatial analysis across multiple Massachusetts cities would further enhance the understanding of localized differences. These extensions would not only strengthen the predictive power of the models but also increase their relevance for policy applications.
 
 ## Conclusion
 
