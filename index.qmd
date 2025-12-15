@@ -102,7 +102,7 @@ Urban activity patterns can significantly influence air quality, yet their tempo
 
 ## Introduction
 
-This project investigates how urban activity patterns influence air quality in major Massachusetts cities, with a particular focus on carbon monoxide (CO) concentrations. The dataset, drawn from the Environmental Protection Agency (EPA), contains daily maximum 8 hour CO values spanning 2016 to 2024. Data from 2020 was intentionally excluded due to the impact of COVID 19 shutdowns, which significantly reduced travel and could have skewed the findings. To enrich the dataset, temporal indicators such as season, weekend status, and holiday occurrence were added, allowing for structured comparisons of pollution variability across different activity contexts. The goal of this research is to better understand how human activity cycles affect air quality and to provide insights that may inform urban planning and public health strategies.
+This project investigates how urban activity patterns influence air quality in major Massachusetts cities, with a particular focus on CO concentrations. The dataset, drawn from the EPA, contains daily maximum 8 hour CO values spanning 2016 to 2024. Data from 2020 was intentionally excluded due to the impact of COVID 19 shutdowns, which significantly reduced travel and could have skewed the findings. To enrich the dataset, temporal indicators such as season, weekend status, and holiday occurrence were added, allowing for structured comparisons of pollution variability across different activity contexts. The goal of this research is to better understand how human activity cycles affect air quality and to provide insights that may inform urban planning and public health strategies.
 
 ### Dataset
 
@@ -122,16 +122,9 @@ CO is computed by the EPA's Air Quality Statistcs software for each hour of the 
 
 ## Exploratory Data Analysis and Data Preprocessing
 
-Exploratory data analysis revealed measurable fluctuations in CO levels between weekdays and weekends, with extended weekends—those that include holidays—showing amplified reductions in pollution. Seasonal variation was also evident, with higher CO levels observed during colder months, likely due to atmospheric conditions that trap pollutants. Preprocessing steps included engineering categorical features and formatting the dataset to align with the requirements of time series modeling. For example, the dataset was structured with Prophet’s required column names, ds for the date and y for the target variable:
+As CO monitoring sites were only in urban centers in Massachusetts, the dataset was already refined to address the research question. The variables for season, weekend status (is_weekend), federal holidays (is_holiday), and long weekends (is_long_weekend) were added by analyzing the 'Date' column. 
 
-```{python}
-# Visualize distribution of CO levels
-sns.histplot(df['CO'], bins=30, kde=True)
-plt.title('Distribution of CO Levels')
-plt.xlabel('CO Level')
-plt.ylabel('Frequency')
-plt.show()
-```
+Exploratory data analysis revealed measurable fluctuations in CO levels between weekdays and weekends, with extended weekends (those that include holidays) showing amplified reductions in pollution. Seasonal variation was also evident, with higher CO levels observed during colder months, likely due to atmospheric conditions that trap pollutants. Preprocessing steps included engineering categorical features and formatting the dataset to align with the requirements of time series modeling. For example, the dataset was structured with Prophet’s required column names, ds for the date and y for the target variable.
 
 ```{python}
 # Visualize CO levels by Season
@@ -165,17 +158,11 @@ plt.show()
 df = df[df['CO'] > 0].copy()
 df['log_CO'] = np.log(df['CO'])
 
-# Visualize distribution of log_CO levels
-sns.histplot(df['log_CO'], bins=30, kde=True)
-plt.title('Distribution of log_CO Levels')
-plt.xlabel('log_CO Level')
-plt.ylabel('Frequency')
-plt.show()
 ```
 
 ## Data Mining and Discovery
 
-For the data mining and discovery phase, we employed a multi‑model approach to better understand the dynamics of CO concentrations across Massachusetts cities. First, we implemented an OLS regression with fixed effects. By including categorical fixed effects for location and time, the model isolated the impact of weekends, holidays, and extended weekends on CO levels. The regression results confirmed statistically significant reductions in pollution during weekends and holidays, highlighting the importance of temporal activity patterns in shaping air quality.
+For the data mining and discovery phase, we employed a multi‑model approach to better understand the dynamics of CO concentrations across Massachusetts cities. First, we implemented an ordinary least squares (OLS) regression with fixed effects. By including categorical fixed effects for location and time, the model isolated the impact of weekends, holidays, and extended weekends on CO levels. The regression results identified an R-squared of 0.103 and a statistically significant p-value for the is_long_weekend variable, confirming a statistically significant reduction in pollution during weekends and holidays, highlighting the importance of temporal activity patterns in shaping air quality.
 
 ```{python}
 # OLS Regression with Fixed Effects
@@ -184,7 +171,7 @@ model_fe = smf.ols("log_CO ~ is_weekend + is_holiday + is_long_weekend + C(month
 print(model_fe.summary2())
 ```
 
-To complement the regression analysis, we applied a Random Forest Regressor to capture nonlinear relationships and complex interactions among features such as season, day of week, and holiday status. The Random Forest model provided strong predictive performance, with relatively INSERT RMSE and INSERT R² values, and its feature importance scores revealed that seasonality and day‑of‑week indicators were among the most influential drivers of CO variation. This machine learning approach validated the regression findings while offering additional insight into the relative importance of different predictors.
+To complement the regression analysis, we applied a Random Forest Regressor to capture nonlinear relationships and complex interactions among features such as season, day of week, and holiday status. The Random Forest model provided strong predictive performance, with a RMSE of 0.151 and a 0.1497 R² value, and its feature importance scores revealed that seasonality and day‑of‑week indicators were among the most influential drivers of CO variation. This machine learning approach validated the regression findings while offering additional insight into the relative importance of different predictors.
 
 ```{python}
 # Random Forest Prediction
