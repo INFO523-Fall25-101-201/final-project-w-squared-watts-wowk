@@ -236,12 +236,6 @@ Looking ahead, future research could broaden the scope by integrating additional
 
 In conclusion, this project demonstrates that urban activity patterns affect air quality, with weekends and holidays reducing CO concentrations and extended weekends amplifying these effects. The Prophet model proved effective in capturing these temporal dynamics, underscoring the importance of considering human activity cycles in environmental sustainability research. By expanding the dataset and incorporating additional pollutants and contextual factors, future work can build on this foundation to provide more comprehensive insights that support urban planning and public health initiatives.
 
-## Links
-
-- [Presentation Recording](https://drive.google.com/file/d/1Je12-rug37mvMl8pIzi21opupNzBf6wM/view?usp=drive_link)
-- [W-Squared GitHub Repository](https://github.com/INFO523-Fall25-101-201/final-project-w-squared-watts-wowk/tree/main)
-- [EPA Data](https://www.epa.gov/outdoor-air-quality-data/download-daily-data)
-
 ## AI Disclaimer
 
 Microsoft Copilot was used along side Github Copilot to troubleshoot deployment and code issues within the respoistory and website.
