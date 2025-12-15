@@ -1,6 +1,6 @@
 ---
 title: "Impact of Urban Activity on Air Quality"
-subtitle: "Peer Review Proposal"
+subtitle: "Project Proposal"
 author: 
   - name: "W Squared - Stephen Watts, Kayla Wowk"
     affiliations:
@@ -22,6 +22,7 @@ jupyter: python3
 ```{python}
 #| label: load-pkgs
 #| message: false
+#| include: false
 import numpy as np
 import pandas as pd
 from pandas.tseries.holiday import USFederalHolidayCalendar
