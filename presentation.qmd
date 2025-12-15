@@ -1,7 +1,7 @@
 ---
-title: "Project title"
-subtitle: "INFO 523 - Summer 2025 - Final Project"
-author: "Author names"
+title: "Impact of Urban Activity on Air Quality"
+subtitle: "INFO 523 - Fall 2025 - Final Project"
+author: "Stephen Watts and Kayla Wowk"
 title-slide-attributes:
   data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg
   data-background-size: stretch
@@ -10,11 +10,15 @@ title-slide-attributes:
 format:
   revealjs:
     theme:  ['data/customtheming.scss']
+    slideNumber: true
   
 editor: visual
 jupyter: python3
 execute:
   echo: false
+  fig-width: 9
+  fig-height: 5
+  fig-dpi: 100
 ---
 
 ```{python}
@@ -23,8 +27,17 @@ execute:
 
 # Load packages here
 import pandas as pd
+import numpy as np
+from pandas.tseries.holiday import USFederalHolidayCalendar
 import seaborn as sns
-
+import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error, r2_score
+from prophet import Prophet
+from prophet.make_holidays import make_holidays_df
+from prophet.plot import plot_plotly, plot_components_plotly
 ```
 
 ```{python}
@@ -35,7 +48,6 @@ import seaborn as sns
 sns.set_theme(style="whitegrid")
 sns.set_context("notebook", font_scale=1.1)
 
-import matplotlib.pyplot as plt
 plt.rcParams['figure.dpi'] = 300
 plt.rcParams['savefig.dpi'] = 300
 plt.rcParams['figure.figsize'] = (6, 6 * 0.618)
@@ -45,123 +57,266 @@ plt.rcParams['figure.figsize'] = (6, 6 * 0.618)
 #| label: load-data
 #| include: false
 # Load data in Python
-mtcars = sns.load_dataset('mpg').dropna()  # mtcars dataset is similar to the mpg dataset from seaborn
-mtcars['speed'] = mtcars['horsepower'] / mtcars['weight']
+df24 = pd.read_csv('data/CO_2024_MA.csv')
+df23 = pd.read_csv('data/CO_2023_MA.csv')
+df22 = pd.read_csv('data/CO_2022_MA.csv')
+df21 = pd.read_csv('data/CO_2021_MA.csv')
+df19 = pd.read_csv('data/CO_2019_MA.csv')
+df18 = pd.read_csv('data/CO_2018_MA.csv')
+df17 = pd.read_csv('data/CO_2017_MA.csv')
+df16 = pd.read_csv('data/CO_2016_MA.csv')
+df_all = pd.concat([df24, df23, df22, df21, df19, df18, df17, df16], ignore_index=True)
 
-penguins = sns.load_dataset('penguins').dropna()
+# Rename Daily Max 8-hour CO Concentration
+df_all.rename(columns={'Daily Max 8-hour CO Concentration': 'CO'}, inplace=True)
+
+# Convert dates to datetime
+df_all['Date'] = pd.to_datetime(df_all['Date'])
+
+# Create column for seasons
+def get_season(month):
+    '''Returns the season for a given date'''
+    if 3 <= month <= 5:
+        return 'Spring'
+    if 6 <= month <= 8:
+        return 'Summer'
+    if 9 <= month <= 11:
+        return 'Fall'
+    return 'Winter'
+df_all['Season'] = df_all['Date'].dt.month.apply(get_season)
+
+# Create column that signifies if it is a weekend
+df_all['is_weekend'] = df_all['Date'].dt.dayofweek >= 5
+
+# Create column that signifies if it is a federal holiday
+cal = USFederalHolidayCalendar()
+holidays = cal.holidays(start=df_all['Date'].min(), end=df_all['Date'].max())
+df_all['is_holiday'] = df_all['Date'].isin(holidays)
+
+# Determine which holidays create long weekends
+holidays = pd.Series(holidays)
+
+# Identify holidays that fall near or on weekends
+weekend_expanding_holidays = holidays[(holidays.dt.dayofweek == 4) |
+    (holidays.dt.dayofweek == 5) |
+    (holidays.dt.dayofweek == 6) |
+    (holidays.dt.dayofweek == 0)]
+
+# Define long weekend days
+df_all['is_long_weekend'] = (df_all['Date'].isin(weekend_expanding_holidays) |
+    df_all['Date'].isin(weekend_expanding_holidays - pd.Timedelta(days=1)) |
+    df_all['Date'].isin(weekend_expanding_holidays + pd.Timedelta(days=1)))
+
+# Keep relevant columns only
+df = df_all[['Date', 'Site ID', 'CO', 'Season', 'is_weekend',
+          'is_holiday', 'is_long_weekend']]
+
+#Rename Site ID
+df.rename(columns={'Site ID': 'ID'}, inplace=True)
+
+# Day of week and month for modeling
+df['dayofweek'] = df['Date'].dt.dayofweek
+df['month'] = df['Date'].dt.month
+df['dayofyear'] = df['Date'].dt.dayofyear
 ```
 
-# Using Quarto for presentations
-
-## Quarto
-
--   The presentation is created using the Quarto CLI
-
--   `##` sets the start of a new slide
-
-## Layouts
-
-You can use plain text
+## Background & Research Question
 
 ::: columns
+Does air quality change depending on the time of the week (weekend versus weekday), during holidays, and/or during long weekends in major cities in Massachusetts?
+
+-   Urban activity patterns can significantly influence air quality, yet their temporal effects remain underexplored in U.S. cities.
+-   This study investigates how weekdays, weekends, seasonal variation, and federal holidays affect carbon monoxide (CO) concentrations in major Massachusetts urban centers.
+:::
+
+## Data & Methods
+::: {.r-fit-text}
+::::: columns
 ::: {.column width="40%"}
--   or bullet points[^1]
+Data:
+
+-   We examined 2016 to 2024 Environmental Protection Agency (EPA) data, specifically analyzing daily maximum 8‑hour CO values.
+-   Data from 2020 was omitted based on the impact of COVID-19 shutdowns and reduction in traveling having the potential to skew the findings.
 :::
 
 ::: {.column width="60%"}
-or in two columns
-:::
-:::
-
-[^1]: And add footnotes
-
--   like
-
--   this
-
-## Code
-
 ```{python}
-from sklearn.linear_model import LinearRegression
-import statsmodels.api as sm
-import pandas as pd
-
-# Fit a linear regression model
-X = mtcars[['speed']]
-y = mtcars['mpg']
-model = LinearRegression().fit(X, y)
-
-# Summary of the model
-X2 = sm.add_constant(X)
-est = sm.OLS(y, X2)
-est2 = est.fit()
-print(est2.summary())
-```
-
-## Plots
-
-```{python}
-penguins['species'] = penguins['species'].apply(lambda x: "Adelie" if x == "Adelie" else "Other")
-sns.scatterplot(data=penguins, x='flipper_length_mm', y='body_mass_g', hue='species')
+sns.histplot(df['CO'], bins=30, kde=True)
+plt.title('Distribution of CO Levels')
+plt.xlabel('CO Level')
+plt.ylabel('Frequency')
 plt.show()
 ```
+:::
+:::::
+:::
 
-## Plot and text
-
+## Data & Methods
+::: {.r-fit-text}
 ::: columns
-::: {.column width="50%"}
--   Some text
 
--   goes here
+| Variable | Description |
+|-------------------------------|----------------------------------------|
+| `Date` | Date of reading |
+| `ID` | Site ID where reading was taken |
+| `CO` | Daily Max 8-hour CO Concentration |
+| `Season` | Denotes which season the reading occurred |
+| `is_weekend` | Denotes if the day the reading occurred was on a weekend |
+| `is_holiday` | Denotes if the day the reading occurred was on a federal holiday |
+| `is_long_weekend` | Denotes if the day the reading occurred was on a long weekend |
+
+- CO is computed by the EPA's Air Quality Statistics software for each hour of the day as a moving average of eight 1-hour values.
+
+:::
 :::
 
-::: {.column width="50%"}
+## Data & Methods
+
 ```{python}
-#| warning: false
-#| fig.width: 5.5
-fig, ax = plt.subplots(figsize=(5.5, 5.5 * 0.618))
-sns.boxplot(data=penguins, x='bill_length_mm', y='species', hue='species', ax=ax)
+sns.boxplot(x='Season', y='CO', data=df)
+plt.title('CO Levels by Season')
+plt.xlabel('Season')
+plt.ylabel('CO Level')
 plt.show()
 ```
-:::
-:::
 
-# A new section...
-
-## Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
+## Data & Methods
 
 ```{python}
-penguins.head().to_html()
+sns.boxplot(x='is_weekend', y='CO', data=df)
+plt.title('CO Levels: Weekends vs Weekdays')
+plt.xlabel('Is Weekend')
+plt.ylabel('CO Level')
+plt.show()
 ```
 
-## Images
+## Data & Methods
 
-![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png){fig-align="center" width="500"}
-
-## Math Expressions {.smaller}
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. \$\\alpha+\\beta\$ renders $\alpha + \beta$. You can use the display style with double dollar signs:
-
-```         
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+```{python}
+sns.boxplot(x='is_long_weekend', y='CO', data=df)
+plt.title('CO Levels: Long Weekends vs Regular Days')
+plt.xlabel('Is Long Weekend')
+plt.ylabel('CO Level')
+plt.show()
 ```
 
-$$
-\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i
-$$
+## Preliminary Findings
+::: {.r-fit-text}
+::::: columns
+::: {.column width="70%"}
+![Results of OLS](images/OLS%20Results.png)
+:::
+::: {.column width="30%"}
+*  Random Forest Results:
 
-Limitations:
+    - RMSE: 0.1510
 
-1.  The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
+    - Random Forest R²: 0.1497
 
-2.  There should not be spaces after the opening `$` or before the closing `$`.
+* Feature Importance:
 
-# Wrap up
+    - dayofyear: 0.610
 
-## Feeling adventurous?
+    - dayofweek: 0.205
 
--   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
+    - Season: 0.120
 
--   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.
+    - is_long_weekend: 0.020
+
+    - month: 0.019
+
+    - is_weekend: 0.018
+
+    - is_holiday: 0.008
+:::
+:::::
+* log_CO was used in these analyses for normalization of the CO data
+:::
+
+## Preliminary Findings {.scrollable}
+Prophet time‑series forecasting model
+
+::::: columns
+::: {.column width="50%"}
+
+```{python}
+# Normalization and Cleaning
+df = df[df['CO'] > 0].copy()
+df['log_CO'] = np.log(df['CO'])
+
+# Prophet model
+df_prophet = df[['Date', 'log_CO']].rename(columns={'Date': 'ds', 'log_CO': 'y'})
+holidays = pd.DataFrame({'holiday': 'us_federal_holiday',
+    'ds': cal.holidays(start=df_prophet['ds'].min(), end=df_prophet['ds'].max()),
+    'lower_window': 0,
+    'upper_window': 1})
+m = Prophet(holidays = holidays, yearly_seasonality=True, weekly_seasonality=True,
+           daily_seasonality=False, changepoint_prior_scale = 0.5)
+m.fit(df_prophet)
+
+# Make predictions
+future = m.make_future_dataframe(periods=365)
+forecast = m.predict(future)
+forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
+
+# Forecast plot
+fig1 = m.plot(forecast)
+plt.title("CO Forecast (log_CO)")
+plt.xlabel("Date")
+plt.show()
+```
+
+:::
+::: {.column width="50%"}
+
+```{python}
+# Plot components
+fig2 = m.plot_components(forecast)
+plt.show()
+```
+
+:::
+:::::
+
+## Interpretation & Significance
+::: {.r-fit-text}
+::::: columns
+
+* The most significant predictors of CO levels that we explored in this project were day of the year, day of the week, and season. 
+
+* While long weekends did not have a large effect on CO levels, our OLS model confirmed a statistically significant decrease in CO levels during long weekends compared to holidays and weekends alone. 
+
+* To truly evaluate urban activity affect on CO levels, we would need to broaden the scope by integrating additional datasets, such as weather variables (temperature, wind speed, precipitation) and demographic or traffic flow data. However, we were not able to find publically available data for these factors in Massachusetts.
+
+:::::
+:::
+
+## Broader Impacts
+- Analyses like these are important to understanding the impacts of how our activities can be contributing to air quality changes. 
+
+- Results could inform strategies to mitigate exposure risks, especially for those of us at high risk for respiratory distress.
+
+
+
+## Conclusion & Closing
+::: {.r-fit-text}
+::::: columns
+
+* This project demonstrates that urban activity patterns affect air quality, with weekends and holidays reducing CO concentrations and extended weekends amplifying these effects on a statistically significant basis. 
+
+* The Prophet model proved effective in capturing these temporal dynamics, underscoring the importance of considering human activity cycles in environmental sustainability research. 
+
+* By expanding the dataset and incorporating additional pollutants and contextual factors, future work can build on this foundation to provide more comprehensive insights that support urban planning and public health initiatives.
+
+:::::
+:::
+
+## Thank you!
+
+Information:
+
+* Link to return to website: https://info523-fall25-101-201.github.io/final-project-w-squared-watts-wowk/
+
+* Github Repository: https://github.com/INFO523-Fall25-101-201/final-project-w-squared-watts-wowk
+
+* Contact: College of Information Science, University of Arizona
