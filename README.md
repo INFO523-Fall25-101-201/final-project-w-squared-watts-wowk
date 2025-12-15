@@ -5,6 +5,7 @@ Final project repo for INFO 523 - Fall 2025.
 
 ## Project Structure
 
+```text
 final-project-w-squared-watts-wowk/
 ├── index.qmd                 # Main analysis and writeup
 ├── presentation.qmd          # RevealJS presentation slides
@@ -20,7 +21,10 @@ final-project-w-squared-watts-wowk/
 │   ├── CO_2023_MA.csv 
 │   ├── CO_2024_MA.csv 
 │   └── customtheming.scss    # Presentation theme
+├── _extra                    # Workspace for code testing
+│   └── model.py              # Initial Data Analysis
 └── _freeze/                  # Quarto computation cache
+```
 
 #### Disclosure:
 Derived from the original data viz course by Mine Çetinkaya-Rundel @ Duke University
