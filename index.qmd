@@ -238,9 +238,9 @@ In conclusion, this project demonstrates that urban activity patterns affect air
 
 ## Links
 
-- [Presentation Recording] (https://drive.google.com/file/d/1Je12-rug37mvMl8pIzi21opupNzBf6wM/view?usp=drive_link)
-- [W-Squared GitHub Repository] (https://github.com/INFO523-Fall25-101-201/final-project-w-squared-watts-wowk/tree/main)
-- [EPA Data] (https://www.epa.gov/outdoor-air-quality-data/download-daily-data)
+- [Presentation Recording](https://drive.google.com/file/d/1Je12-rug37mvMl8pIzi21opupNzBf6wM/view?usp=drive_link)
+- [W-Squared GitHub Repository](https://github.com/INFO523-Fall25-101-201/final-project-w-squared-watts-wowk/tree/main)
+- [EPA Data](https://www.epa.gov/outdoor-air-quality-data/download-daily-data)
 
 ## AI Disclaimer
 
